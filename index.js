@@ -61,5 +61,12 @@ var firebaseConfig = {
  () => {
       ui.start("#firebaseui-auth-container", uiConfig);
 });
-  
+  firebase.auth().onAuthStateChanged((user)=> {
+  if (user) {
+    startRsvpButton.textContent = "LOGOUT"
+  }
+  else {
+    startRsvpButton.textContent = "RSVP"
+  }
+});
 // const ui = new firebaseui.auth.AuthUI(firebase.auth());
