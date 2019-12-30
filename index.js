@@ -79,4 +79,31 @@ startRsvpButton.addEventListener("click",
       ui.start("#firebaseui-auth-container", uiConfig);
     }
 });
+form.addEventListener("submit", (e) => {
+ // Prevent the default form redirect
+ e.preventDefault();
+ // Write a new message to the database collection "guestbook"
+ firebase.firestore().collection("guestbook").add({
+   text: input.value,
+   timestamp: Date.now(),
+   name: firebase.auth().currentUser.displayName,
+   userId: firebase.auth().currentUser.uid
+ })
+ // clear message input field
+ input.value = ""; 
+ // Return false to avoid redirect
+ return false;
+});
+firebase.auth().onAuthStateChanged((user) => {
+ if (user){
+   startRsvpButton.textContent = "LOGOUT";
+   // Show guestbook to logged-in users
+   guestbookContainer.style.display = "block";
+ }
+ else{
+   startRsvpButton.textContent = "RSVP";
+   // Hide guestbook for non-logged-in users
+   guestbookContainer.style.display = "none";
+ }
+});
 // const ui = new firebaseui.auth.AuthUI(firebase.auth());
