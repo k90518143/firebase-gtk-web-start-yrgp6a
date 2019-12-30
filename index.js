@@ -69,4 +69,14 @@ var firebaseConfig = {
     startRsvpButton.textContent = "RSVP"
   }
 });
+startRsvpButton.addEventListener("click",
+ () => {
+    if (firebase.auth().currentUser) {
+      // User is signed in; allows user to sign out
+      firebase.auth().signOut();
+    } else {
+      // No user is signed in; allows user to sign in
+      ui.start("#firebaseui-auth-container", uiConfig);
+    }
+});
 // const ui = new firebaseui.auth.AuthUI(firebase.auth());
